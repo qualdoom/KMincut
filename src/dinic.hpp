@@ -1,9 +1,9 @@
-#include "graph.hpp"
-
 #include <cstddef>
 #include <limits>
 #include <queue>
 #include <vector>
+
+#include "graph.hpp"
 
 struct MaxFlowEdge {
     int to;
@@ -30,13 +30,18 @@ struct MaxFlowGraphInfo {
     }
 
     void AddEdge(int u, int v, int index, long long cap) {
-        graph[u].push_back(MaxFlowEdge(v, graph[v].size(), index, cap, cap));
-        graph[v].push_back(MaxFlowEdge(u, static_cast<int>(graph[u].size()) - 1, -1, 0, 0));
+        int u_size = static_cast<int>(graph[u].size());
+        int v_size = static_cast<int>(graph[v].size());
+        graph[u].push_back(MaxFlowEdge(v, v_size, index, cap, cap));
+        graph[v].push_back(MaxFlowEdge(u, u_size, -1, 0, 0));
     }
 
     void AddUndirectedEdge(int u, int v, int index, long long cap) {
-        AddEdge(u, v, index, cap);
-        AddEdge(v, u, index, cap);
+           int u_size = static_cast<int>(graph[u].size());
+        int v_size = static_cast<int>(graph[v].size());
+        graph[u].push_back(MaxFlowEdge(v, v_size, index, cap, cap));
+        graph[v].push_back(MaxFlowEdge(u, u_size, index, cap, cap));
+ 
     }
 };
 

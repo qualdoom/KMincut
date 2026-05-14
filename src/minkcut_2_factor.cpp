@@ -3,7 +3,6 @@
 #include "gomory_hu_tree.hpp"
 
 #include <algorithm>
-#include <unordered_map>
 #include <vector>
 
 void Dfs(int u, const Graph& tree, int color, std::vector<int>& colors, int p = -1) {
@@ -30,18 +29,20 @@ Cut GetApproxKCut(const Graph&g, size_t k) {
 
     std::vector<Edge> cut_edges;
 
-    for (size_t j = 0; j < k; j++) {
+    size_t edges_to_cut = std::min(k - 1, tree_edges.size());
+
+    for (size_t j = 0; j < edges_to_cut; j++) {
         cut.cost += tree_edges[j].cost;
         int u = tree_edges[j].from;
         int v = tree_edges[j].to;
         
         std::vector<int> colors(n, 0);
         Dfs(u, tree.tree, 0, colors, v);
-        Dfs(v, tree.tree, 1, colors, v);
+        Dfs(v, tree.tree, 1, colors, u);
 
         for (int t = 0; t < n; t++) {
             for (const auto& edge: g.graph[t]) {
-                if (colors[edge.to] != colors[edge.from]) {
+                if (edge.to < edge.from && colors[edge.to] != colors[edge.from]) {
                     cut_edges.push_back(edge);
                 }
             }

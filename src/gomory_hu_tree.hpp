@@ -19,19 +19,15 @@ struct GomoryHuTree {
             MaxFlowGraphInfo h;
             h.Init(n, 0);
 
-            for (size_t u = 0; u < n; ++u) {
-                for (const auto& edge : g.graph[u]) {
-                    if (u < edge.to) {
-                        h.AddUndirectedEdge(u, edge.to, -1, edge.cost);
-                    }
-                }
+            for (const auto& edge : g.edges) {
+                h.AddUndirectedEdge(edge.to, edge.from, -1, edge.cost);
             }
 
             Dinic dinic;
             dinic.Init(h, s, t);
 
             auto flow = dinic.GetFlow(/*max_two_power=*/60);
-            dinic.Bfs(1); // for finding achievable vertices
+            dinic.Bfs(1);  // for finding achievable vertices
 
             for (int j = i + 1; j < n; j++) {
                 if (parent[j] == t && dinic.dist[j] != -1) {

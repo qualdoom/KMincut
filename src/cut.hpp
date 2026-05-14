@@ -6,6 +6,6 @@
 
 struct Cut {
     size_t k;
-    long long cost;
+    long long cost{0};
     std::vector<Edge> cut_edges;
 };
