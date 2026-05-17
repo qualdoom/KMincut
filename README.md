@@ -14,7 +14,7 @@ u_1 v_1 cost_1
 u_m v_m cost_m
 ```
 
-Сборка проекта:
+Сборка проекта для запуска решения:
 
 ```
 mkdir build && cd build
@@ -27,4 +27,10 @@ cmake --build .
 
 ```
 cd build && cmake .. && cmake --build . && ./unit_tests
+```
+
+Запустить бенчмарк:
+
+```
+cd build && cmake .. && cmake --build . && ./benchmark
 ```

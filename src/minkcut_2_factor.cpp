@@ -32,7 +32,6 @@ Cut GetApproxKCut(const Graph&g, size_t k) {
     size_t edges_to_cut = std::min(k - 1, tree_edges.size());
 
     for (size_t j = 0; j < edges_to_cut; j++) {
-        cut.cost += tree_edges[j].cost;
         int u = tree_edges[j].from;
         int v = tree_edges[j].to;
         
@@ -51,6 +50,12 @@ Cut GetApproxKCut(const Graph&g, size_t k) {
 
     sort(cut_edges.begin(), cut_edges.end());
     cut_edges.erase(std::unique(cut_edges.begin(), cut_edges.end()), cut_edges.end());
+
+    cut.cost = 0;
+
+    for (const auto& edge: cut_edges) {
+        cut.cost += edge.cost;
+    }
 
     cut.k = k;
     cut.cut_edges = cut_edges;
